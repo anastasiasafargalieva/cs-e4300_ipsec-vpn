@@ -4,18 +4,12 @@
 route add default gw 172.16.16.1
 iptables -t nat -A POSTROUTING -o enp0s8 -j MASQUERADE
 
-##setting up virtual network
-ip link add eth0 type dummy
-ip addr add 10.1.0.99/16 brd + dev eth0 label eth0:0
-
-##redirect to cloud
-iptables -t nat -A PREROUTING -p tcp -d 10.1.0.99 --dport 8080 -j DNAT --to 172.30.30.30:8080
-
 ## Save the iptables rules
 iptables-save > /etc/iptables/rules.v4
 ip6tables-save > /etc/iptables/rules.v6
 
-echo 172.16.16.16 172.30.30.30 : PSK \"I9Z3jDbcZx5hJqU8HyaG4q2u9lQ7ZiUW0Yl63MEQJkpbHNH9x7HpH9vYyBVqo2nE9K2ZECFUH07emDzbf9CqinowTYC4HyZw101CMWm0mvBLQEWtlr05CFeJuqzucTtWuMqmQc7JWod19RxuFikQLRFV20nOXNLFDnfKe4EzbDRdB8Oldnm87E3JEP0GFhWIgjKGAyjIPMWjMgnldHCQpdXz9gLGjEqRj42Lp8UHtYaMi8QXMgqzD58rcOBWGlMa\" >> /etc/ipsec.secrets
+echo 172.30.30.30 172.16.16.16 : PSK \"dD58fp51Pc8ktpFXZkiPncYS3TLUr3hFqf4ztNOQxG6ahetroQfsaIhkmzp6uaJEzDZec6U8dYyu5Pw57QVCGgMF0mABSC8KOtCUW5wZHd823fq4wbt2n2aQgvVT1vc227ZfmsrvKbolEQlENv55tq5lsYTKOjomWSPWx1XJLHsGAAfZcwyrYEykDwTtUeCVusohvptxGQPad8XmK744vz6gIolqRVhFK5X0JmcSJGZQRUSSqnBGn7ZYoVZXuOZwQJWEINRabFM0zXoerG2ezLGLOLT1PNZu3tvzmI7f8nQzedy8MJAwouUqGUHXFhTJ8wnPIPUydbYnV1aulGFKSpt3ayv8umwyLp17LVix3z77lb29x2n8eCV8TkLVtZPZt20AAlKAk1mCRWnOqj4VJqhCT3pMeIlvTBhexvzn0mXwicHxxMdte8CIooAGyFvUsR7QOjQV7fZ3zDg8nFW7WgFI84ipK7NHruNpBEdcmfprK2wRKzPDivMcvtzhXbMCaD7VRS3pwckQB7cZUweoOmLpWSBTSuyHfjaDQhyo7x2QI5AID9BAjMnrkmtPsL4wfTrapoSvmdo5Vgrv6ZMNifISpBhV7Sox5kp3TMjsiCQwarad7KSino3Ue0pTCNsGwHApU0nOgagNpIlikeqyy7MG9x5kWM2vzComAlyONF1ttF9rGxgxXUWVopV8lThSAtDZdkXFTrWNr5dR5SHK63X9c8b3z3iP2xf83ptBnH32QMLxCc7HpJP18e5ROYltbsETvtfvMZ9GCKphBoHhBA4mIpVvg3HwGorLZWtjfUNqlc5qiJBPSoBb30CEO21Z82xQrvZMSes4LPoeUr3oRdddMuGH9vivFTzJdu0L27FInAnAE9fV6jd9sCiJJGGDUNxK5QZn0tRoIjIeY6sUCpb7BKyoXsAn5WygGaLH6oFq1Erojgqbw2Hf7unW7Q9b1VW5Sc9sgZtJICAb04Hd5npEodPHI3SNP4pgFXNrNVHHZ0jCfWf2B7Y3XfLiR0Am\">> /etc/ipsec.secrets
+
 
 ## ipsec conf
 cat > /etc/ipsec.conf <<EOL

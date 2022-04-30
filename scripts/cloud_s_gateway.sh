@@ -3,28 +3,21 @@
 ## Traffic going to the internet
 route add default gw 172.30.30.1
 
-## Outbound NAT
+## setting NAT for cloud s
 iptables -t nat -A POSTROUTING -o enp0s8 -j MASQUERADE
 
-## FULL CONE TO SERVER
-iptables -t nat -A PREROUTING -i enp0s8 -p tcp --source 172.18.18.18 --dport 8080 -j DNAT --to-destination 10.1.0.2:9999
-iptables -t nat -A PREROUTING -i enp0s8 -p tcp --source 172.16.16.16 --dport 8080 -j DNAT --to-destination 10.1.0.2:9998
+## making cloud-s private by assigning servers on the cloud side the ip servers of the client side
+echo 172.30.30.30 172.16.16.16 : PSK \"dD58fp51Pc8ktpFXZkiPncYS3TLUr3hFqf4ztNOQxG6ahetroQfsaIhkmzp6uaJEzDZec6U8dYyu5Pw57QVCGgMF0mABSC8KOtCUW5wZHd823fq4wbt2n2aQgvVT1vc227ZfmsrvKbolEQlENv55tq5lsYTKOjomWSPWx1XJLHsGAAfZcwyrYEykDwTtUeCVusohvptxGQPad8XmK744vz6gIolqRVhFK5X0JmcSJGZQRUSSqnBGn7ZYoVZXuOZwQJWEINRabFM0zXoerG2ezLGLOLT1PNZu3tvzmI7f8nQzedy8MJAwouUqGUHXFhTJ8wnPIPUydbYnV1aulGFKSpt3ayv8umwyLp17LVix3z77lb29x2n8eCV8TkLVtZPZt20AAlKAk1mCRWnOqj4VJqhCT3pMeIlvTBhexvzn0mXwicHxxMdte8CIooAGyFvUsR7QOjQV7fZ3zDg8nFW7WgFI84ipK7NHruNpBEdcmfprK2wRKzPDivMcvtzhXbMCaD7VRS3pwckQB7cZUweoOmLpWSBTSuyHfjaDQhyo7x2QI5AID9BAjMnrkmtPsL4wfTrapoSvmdo5Vgrv6ZMNifISpBhV7Sox5kp3TMjsiCQwarad7KSino3Ue0pTCNsGwHApU0nOgagNpIlikeqyy7MG9x5kWM2vzComAlyONF1ttF9rGxgxXUWVopV8lThSAtDZdkXFTrWNr5dR5SHK63X9c8b3z3iP2xf83ptBnH32QMLxCc7HpJP18e5ROYltbsETvtfvMZ9GCKphBoHhBA4mIpVvg3HwGorLZWtjfUNqlc5qiJBPSoBb30CEO21Z82xQrvZMSes4LPoeUr3oRdddMuGH9vivFTzJdu0L27FInAnAE9fV6jd9sCiJJGGDUNxK5QZn0tRoIjIeY6sUCpb7BKyoXsAn5WygGaLH6oFq1Erojgqbw2Hf7unW7Q9b1VW5Sc9sgZtJICAb04Hd5npEodPHI3SNP4pgFXNrNVHHZ0jCfWf2B7Y3XfLiR0Am\">> /etc/ipsec.secrets
+echo 172.30.30.30 172.18.18.18 : PSK \"pffhZGEwdnkz1X1Cf0pNkyPvp4y4oLtcI9yvTFWeFSfCMBkL5TArojelYprACExdN4sfT8ArGmNYdV5fpAYP9oqJegNdqoATpgcKyWPwXFUW3YMEEXk2sFdskCFJ6Li7iv8C6TgBbwF928tIySlvffhZKi8IdkGszGBU32U91dDVGvcBV4uKL2S6HhBkljGRak2XQn8QphZ5HOqcASmlwkLaUzZJGJIh2iJcHmvZABShbSQJZQ1uuaKkFdILT3Suu7dmdX3Zx4MpesURqaQoLNwfeEfKGaz9cavarEL6l3RQfej0cUc82hiPvYEROCK8qPxa3EhE14uasESkdB8sNkj5S0P6FUcgBQEskQ16LnQLcZEkQIy2ilPzrc1NhFkH3lGaRQ8E2pglsvgSFJtnMkOQyHCTJLIwBrVdUsLhrZsIGU7wY062PjIFzF091eajSUlP1jnuM2WcyN1VQzZYBgEJtS9NKaYk5t6neCgyXkQEMbGkCpjWmw7tGnusoXoTolH4hEaQYzI1jvVGMrZB16T9GqfjYpWoZM6bmQziYTERuBCJ065sp5msHGT0F2lAthtlAqOCGhFe3gju59hXeGwuEyKi6bNxq9rVUfdyVnvV1fDKlALYW5voFhDIoyuygFbacOJbWvwMpWmfS1JdKY6qKYQtUApyM5e21e64d3DBUylacr13XmKyc2PdPSO59I2JoheOVD8eASmvw5kUB7xpow66ykbRBRFHxEAa1VwQcBIt1m3C8ZAAREM0P0OONdO9Jco7MQbRgMETNLS8EjKBL5xw0gUg6imYventhBHYuh689WIR4SebwwEVt070j3IQc7Sr4R31Ncg38Y4IvABhK4Rueio0vDNIAJz7Ds5mc17IXiHIhfVNFiyJY70GmZl0uVrN8QauRNnyit3UG2XMSSghajY2dyJJZRTD6s50E3hsIHVtEjQZXY6KQ6AmPlDJ00pgIFrNSFfEQEIRwNJYF1DETS5lEqhI6aUlQAbFnLOawJS2sZGuB5TI9kUZ\">> /etc/ipsec.secrets
 
-## Iptables rules
-iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT  #Accept ike trrafic
-iptables -A INPUT -p esp -i enp0s8 --source 172.16.16.16 -j ACCEPT      #Acccept esp encapsulated trrafic from enp0s8
-iptables -A INPUT -p esp -i enp0s8 --source 172.18.18.18 -j ACCEPT      #Acccept esp encapsulated trrafic from enp0s8
-iptables -A INPUT -i enp0s3 -j ACCEPT                                   #Accept vagrant ssh trrafic from enp0s3
-iptables -A INPUT -i enp0s9 --source 10.1.0.0/16 -j ACCEPT              #ACCEPT internal trrafic from enp0s9
-iptables -P INPUT DROP                                                  #DROP everything else policy
+
+## DNAT
+iptables -t nat -A PREROUTING -i enp0s8 -p tcp --source 172.18.18.18 --dport 8080 -j DNAT --to-destination 10.1.0.2
+iptables -t nat -A PREROUTING -i enp0s8 -p tcp --source 172.16.16.16 --dport 8080 -j DNAT --to-destination 10.1.0.3
 
 ## Save the iptables rules
 iptables-save > /etc/iptables/rules.v4
 ip6tables-save > /etc/iptables/rules.v6
-
-
-echo 172.30.30.30 172.16.16.16 : PSK \"I9Z3jDbcZx5hJqU8HyaG4q2u9lQ7ZiUW0Yl63MEQJkpbHNH9x7HpH9vYyBVqo2nE9K2ZECFUH07emDzbf9CqinowTYC4HyZw101CMWm0mvBLQEWtlr05CFeJuqzucTtWuMqmQc7JWod19RxuFikQLRFV20nOXNLFDnfKe4EzbDRdB8Oldnm87E3JEP0GFhWIgjKGAyjIPMWjMgnldHCQpdXz9gLGjEqRj42Lp8UHtYaMi8QXMgqzD58rcOBWGlMa\" >> /etc/ipsec.secrets
-echo 172.30.30.30 172.18.18.18 : PSK \"fyTHSqL0jlh8hs3o1uz0I8BQ45Kt4C2DXIsTf9oLQ7a6bD0zchC0M6SROH673UHq8aG3xUFF8bhlPrUOSBLAi65Ntpzjm2SnSQ2hlAJI17i6yvcrhioGE8c5dgMlDcEiW89zB856Y1I3EkzfAldwdsNFrCDpHiNcg1haomLK2IOonEchfpXos7ff2jiPeezyfaUFAAGh1TcmlNHkg0OPbZknZmSPp8ll8vzXb0Gi6yEl5GKV4xDh9hzudbYG2VWZ\" >> /etc/ipsec.secrets
 
 ## ipsec conf
 cat > /etc/ipsec.conf <<EOL
